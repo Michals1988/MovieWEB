@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  database:
+    container_name: movieWeb-db
+    image: "mysql:8.0.34-oracle"
+    ports:
+      - "3307:3306"
+    networks:
+      - movieWeb-network
+    environment:
+      MYSQL_DATABASE: movieweb
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - movieWeb-volume:/var/lib/mysql
+      - ./mysql-dump:/docker-entrypoint-initrd.d/movieweb_library.sql
+
+
+
+volumes:
+  movieWeb-volume:
+
+networks:
+  movieWeb-network:
+    driver: bridge
