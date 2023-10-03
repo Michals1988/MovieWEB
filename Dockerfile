@@ -3,16 +3,11 @@
 #
 FROM maven:3.8.5-openjdk-17 AS build
 
-WORKDIR var/movieweb
+WORKDIR /app
 COPY . .
-
-RUN mvn clean install
-
-CMD mvn spring-boot:run
-
-#RUN mvn -f /home/app/pom.xml clean package
+COPY target/MovieWEB-0.0.1-SNAPSHOT.jar /app/MovieWEB-0.0.1-SNAPSHOT.jar
 
 EXPOSE 8080
 
+CMD ["java", "-jar", "MovieWEB-0.0.1-SNAPSHOT.jar"]
 
-#ENTRYPOINT ["java","-jar","/home/app/target/MovieWEB-0.0.1-SNAPSHOT.jar"]
