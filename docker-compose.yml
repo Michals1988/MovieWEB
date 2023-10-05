@@ -1,19 +1,21 @@
 version: "3"
 
 services:
-  mysql:
-    container_name: movieWeb-db
+  movieweb:
+    container_name: movieweb
     image: "mysql:8.0.34-oracle"
     ports:
-      - "3307:3306"
+      - "3306:3306"
     networks:
       - movieWeb-network
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mysql
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "mysql"
     restart: always
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - movieWeb-volume:/var/lib/mysql
+      - "./scripts:/docker-entrypoint-initdb.d"
 
   app:
     build:
@@ -22,13 +24,12 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      - movieweb
+    restart: always
     networks:
       - movieWeb-network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://docker-mysql:3306/database?autoReconnect=true&useSSL=false
-    volumes:
-      - movieWeb-volume:/var/lib/mysql
+      SPRING_DATASOURCE_URL: jdbc:mysql://movieweb:3306/mysql
 
 volumes:
   movieWeb-volume:
