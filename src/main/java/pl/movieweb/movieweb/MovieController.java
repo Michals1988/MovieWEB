@@ -35,6 +35,9 @@ public class MovieController {
 
     @GetMapping("/oneMovie/{id}")
     public String Movie(@PathVariable("id") int id, Model model) {
+        if (id == 0) {
+            return "redirect:/all";
+        }
         model.addAttribute("item", movieRepository.getOneMovie(id));
         return "moviePage";
     }
@@ -47,7 +50,7 @@ public class MovieController {
 
     @GetMapping("/editMovie/{id}")
     public String MainPage(@PathVariable("id") int id, Model model) {
-        model.addAttribute("item", movieRepository.getOneMovie(id));
+        model.addAttribute("item", movieRepository.getOneMovieToEdit(id));
         return "moviePageEdit";
     }
 

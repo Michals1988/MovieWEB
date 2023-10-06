@@ -27,19 +27,19 @@
 
             <div class="form-group col-6 offset-3">
                 <label for="titleNewMovie">Tytuł filmu:</label>
-                <input type="text" maxlength="200" class="form-control " id="titleNewMovie" th:field="*{title}">
+                <input type="text" maxlength="200" class="form-control " id="titleNewMovie" th:field="*{title}" required>
             </div>
 
             <div class="form-group col-6 offset-3">
                 <label for="releaseYearNewMovie">Rok premiery:</label>
                 <input type="number" min="1900" max="2050" class="form-control " id="releaseYearNewMovie"
-                       th:field="*{releaseYear}" value="2023">
+                       th:field="*{releaseYear}" value="2023" required>
             </div>
 
             <div class="form-group col-6 offset-3">
                 <label for="ratingNewMovie">Ocena filmu:</label>
                 <input type="number" min="1" max="10" class="form-control " id="ratingNewMovie"
-                       th:field="*{rating}" value="10">
+                       th:field="*{rating}" value="10" required>
             </div>
 
             <div class="form-group col-6 offset-3">
