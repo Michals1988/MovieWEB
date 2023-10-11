@@ -49,31 +49,9 @@
                         <h2 th:text="${item.descriptionMovie}"></h2>
                     </div>
                     <br>
-                    <form type="submit" th:action="@{'/oneMovie/'+ ${item.id}}" th:method="POST">
-                        <div class="col-6">
-                            <label for="ratingNewMovie">Jak oceniasz film?</label>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-3">
-                                <select class="form-select" aria-label="Default select example" id="ratingNewMovie"
-                                        th:name="movieRating" required>
-                                    <option value=1>1</option>
-                                    <option value=2>2</option>
-                                    <option value=3>3</option>
-                                    <option value=4>4</option>
-                                    <option value=5>5</option>
-                                    <option value=6>6</option>
-                                    <option value=7>7</option>
-                                    <option value=8>8</option>
-                                    <option value=9>9</option>
-                                    <option value=10>10</option>
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <button type="submit" class="btn btn-success">Oceń</button>
-                            </div>
-                        </div>
-                    </form>
+                    <div class="col-6">
+                        <label>Dziękujemy za ocenę!</label>
+                    </div>
                 </div>
             </div>
             <br>

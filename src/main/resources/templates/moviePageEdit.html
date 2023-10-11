@@ -30,17 +30,26 @@
                 <input type="text" maxlength="200" class="form-control " id="titleNewMovie" th:field="*{title}">
             </div>
 
+            <div class="form-group col-6 offset-3" th:object="${category}">
+                <label>Wybierz kategorię:</label>
+                <select class="form-select"  id="categoryNameMovie" name="categoryNameMovie"  required>
+                    <div th:object="${categoryList}" th:each="category : ${categoryList}">
+                        <option th:value="${category.categoryName}" th:text="${category.categoryName}" th:object="${item}" th:field="*{categoryNameMovie}"></option>
+                    </div>
+                </select>
+            </div>
+
             <div class="form-group col-6 offset-3">
                 <label for="releaseYearNewMovie">Rok premiery:</label>
                 <input type="number" min="1900" max="2050" class="form-control " id="releaseYearNewMovie"
                        th:field="*{releaseYear}" value="2023">
             </div>
 
-            <div class="form-group col-6 offset-3">
-                <label for="ratingNewMovie">Ocena filmu:</label>
-                <input type="number" min="1" max="10" class="form-control " id="ratingNewMovie"
-                       th:field="*{rating}" value="10">
-            </div>
+<!--            <div class="form-group col-6 offset-3">-->
+<!--                <label for="ratingNewMovie">Ocena filmu:</label>-->
+<!--                <input type="number" min="1" max="10" class="form-control " id="ratingNewMovie"-->
+<!--                       th:field="*{rating}" value="10">-->
+<!--            </div>-->
 
             <div class="form-group col-6 offset-3">
                 <label for="descriptionMovieNewMovie">Opis filmu:</label>
@@ -55,15 +64,13 @@
 
             <div class="col-2 offset-3">
                 <br>
-
-
-
-<!--                <form type="submit" th:action="@{'/editMovie/' + ${item.id}}" th:method="POST">-->
-                    <button type="submit" class="btn btn-danger">Zapisz zmiany</button>
+                <button type="submit" class="btn btn-danger">Zapisz zmiany</button>
 
             </div>
         </form>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
     </body>
     </html>

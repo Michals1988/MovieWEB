@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"></link>-->
+</head>
+
 <body>
 <header th:fragment="Navbar">
     <nav class="navbar fixed-top navbar-dark bg-dark navbar-expand">
@@ -7,15 +16,32 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+        <div class="container-fluid" id="navbarSupportedContent">
+            <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a role="button" href="/all" class="btn btn-warning" style="margin-right: 5px">Katalog filimów</a>
+                    <a role="button" href="/all" class="btn btn-warning" style="margin-right: 5px">Katalog filmów</a>
                 </li>
                 <li class="nav-item">
-                    <a role="button" href="/add" class="btn btn-warning">Dodaj film</a>
+                    <a role="button" href="/add" class="btn btn-warning" style="margin-right: 5px">Dodaj film</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="btn btn-warning dropdown-toggle " href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" th:object="${categoryList}" aria-expanded="false">Kategorie</a>
+                    <div class="dropdown-menu">
+                        <div th:each="category : ${categoryList}">
+                            <a type="button" class="dropdown-item" th:value="${category.idCategory}" th:text="${category.categoryName}" th:href="@{'/all/'+${category.idCategory}}"></a>
+                        </div>
+                    </div>
                 </li>
             </ul>
+
+            <form class="d-flex" th:action="@{/searchMovie}" th:method="POST">
+                <input class="form-control me-2" style="margin-left: 5px" type="search" placeholder="Wpisz tytuł filmu"
+                       th:name="movieTitle" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit" th:href="@{'/searchMovie'}">Szukaj</button>
+            </form>
+
+
         </div>
     </nav>
 </header>

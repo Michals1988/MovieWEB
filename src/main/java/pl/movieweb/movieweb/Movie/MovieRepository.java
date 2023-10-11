@@ -1,9 +1,10 @@
-package pl.movieweb.movieweb;
+package pl.movieweb.movieweb.Movie;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import pl.movieweb.movieweb.Category.Category;
 
 import java.util.List;
 
@@ -22,11 +23,13 @@ public class MovieRepository {
         if (movie.getDescriptionMovie().isEmpty()) {
             movie.setDescriptionMovie(emptyDescription);
         }
-        jdbcTemplate.update("INSERT INTO movieweb.library (title, releaseYear, rating, descriptionMovie, img) VALUES (?, ?, ?, ?, ?)",
+        float firstRating=0;
+        jdbcTemplate.update("INSERT INTO movieweb.library (title, categoryNameMovie, releaseYear, descriptionMovie, rating, img) VALUES (?, ?, ?, ?, ?, ?)",
                 movie.getTitle(),
+                movie.getCategoryNameMovie(),
                 movie.getReleaseYear(),
-                movie.getRating(),
                 movie.getDescriptionMovie(),
+                firstRating,
                 movie.getImg());
     }
 
@@ -34,15 +37,14 @@ public class MovieRepository {
         List<Movie> movieList;
         movieList = jdbcTemplate.query("SELECT * FROM movieweb.library", BeanPropertyRowMapper.newInstance(Movie.class));
         if (movieList.isEmpty()) {
-            Movie movie = new Movie(0, "Brak filmów", 0, "Brak opisu", 0, "https://almparts.co.za/wp-content/uploads/2021/12/no-image-available-icon.jpg");
+            Movie movie = new Movie(0, "Brak kategorii", "Brak filmów", 0, "Brak opisu", 0, "https://almparts.co.za/wp-content/uploads/2021/12/no-image-available-icon.jpg");
             movieList.add(movie);
         }
-
         return movieList;
     }
 
     public void deleteOneMovie(int id) {
-        jdbcTemplate.update("DELETE FROM movieweb.library WHERE " + "id = ?", id);
+        jdbcTemplate.update("DELETE FROM movieweb.library WHERE id = ?", id);
     }
 
     public Movie getOneMovie(int id) {
@@ -72,14 +74,43 @@ public class MovieRepository {
         if (movie.getDescriptionMovie().isEmpty()) {
             movie.setDescriptionMovie(emptyDescription);
         }
-        jdbcTemplate.update("UPDATE movieweb.library SET title=?, releaseYear=?, descriptionMovie=?, rating=?, img=? WHERE id=?",
+        jdbcTemplate.update("UPDATE movieweb.library SET title=?, categoryNameMovie=?, releaseYear=?, descriptionMovie=?, img=? WHERE id=?",
                 movie.getTitle(),
+                movie.getCategoryNameMovie(),
                 movie.getReleaseYear(),
                 movie.getDescriptionMovie(),
-                movie.getRating(),
                 movie.getImg(),
                 movie.getId());
     }
 
+    public List<Movie> findMovie(String movieTitle) {
+        List<Movie> movieList;
+        movieTitle = "%" + movieTitle + "%";
+        movieList = jdbcTemplate.query("SELECT * FROM movieweb.library WHERE title LIKE ?", BeanPropertyRowMapper.newInstance(Movie.class), movieTitle);
+        System.out.println(movieTitle);
+        System.out.println(movieList.toString());
+        if (movieList.isEmpty()) {
+            Movie movie = new Movie(0, "Brak kategorii", "Brak filmów", 0, "Brak opisu", 0, "https://almparts.co.za/wp-content/uploads/2021/12/no-image-available-icon.jpg");
+            movieList.add(movie);
+        }
+        return movieList;
+    }
+
+    public List<Movie> findMovieByCategory(String categoryName) {
+        List<Movie> movieList;
+        movieList = jdbcTemplate.query("SELECT * FROM movieweb.library WHERE categoryNameMovie=?", BeanPropertyRowMapper.newInstance(Movie.class), categoryName);
+
+        if (movieList.isEmpty()) {
+            Movie movie = new Movie(0, "Brak kategorii", "Brak filmów", 0, "Brak opisu", 0, "https://almparts.co.za/wp-content/uploads/2021/12/no-image-available-icon.jpg");
+            movieList.add(movie);
+        }
+        return movieList;
+    }
+
+    public void updateMovieRating(float movieRating, int movieId) {
+        jdbcTemplate.update("UPDATE movieweb.library SET rating=? WHERE id=?",
+                movieRating,
+                movieId);
+    }
 }
 
